@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Clojure
+Bundle-SymbolicName: org.clojure
+Bundle-Version: 1.2.0
+Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Bundle-ClassPath: .
+Export-Package: clojure,
+ clojure.asm,
+ clojure.asm.commons,
+ clojure.core,
+ clojure.java,
+ clojure.lang,
+ clojure.pprint,
+ clojure.test
