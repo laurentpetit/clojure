@@ -257,6 +257,11 @@ static public Object getCompilerOption(Keyword k){
         for (Map.Entry e : System.getProperties().entrySet())
         {
             String name = (String) e.getKey();
+            // It is not guaranteed that System property values are String
+            // e.g. OSGi places some non-String properties in it
+            if (!(e.getValue() instanceof String)) {
+                continue;
+            }
             String v = (String) e.getValue();
             if (name.startsWith("clojure.compiler."))
             {
