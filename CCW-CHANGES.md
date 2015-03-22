@@ -1,0 +1,1 @@
+- CLJ-1620: avoid constants leak in static initalizer
