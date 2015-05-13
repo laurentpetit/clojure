@@ -196,7 +196,7 @@ public static Object invokeStaticMethodVariadic(String className, String methodN
 }
 
 public static Object invokeStaticMethod(String className, String methodName, Object[] args) {
-	Class c = RT.classForName(className);
+	Class c = RT.classForNameNonLoading(className);
 	return invokeStaticMethod(c, methodName, args);
 }
 
@@ -208,7 +208,7 @@ public static Object invokeStaticMethod(Class c, String methodName, Object[] arg
 }
 
 public static Object getStaticField(String className, String fieldName) {
-	Class c = RT.classForName(className);
+	Class c = RT.classForNameNonLoading(className);
 	return getStaticField(c, fieldName);
 }
 
@@ -232,7 +232,7 @@ public static Object getStaticField(Class c, String fieldName) {
 }
 
 public static Object setStaticField(String className, String fieldName, Object val) {
-	Class c = RT.classForName(className);
+	Class c = RT.classForNameNonLoading(className);
 	return setStaticField(c, fieldName, val);
 }
 

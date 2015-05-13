@@ -1019,7 +1019,7 @@ static public abstract class HostExpr implements Expr, MaybePrimitiveExpr{
 				if(Util.equals(sym,COMPILE_STUB_SYM.get()))
 					return (Class) COMPILE_STUB_CLASS.get();
 				if(sym.name.indexOf('.') > 0 || sym.name.charAt(0) == '[')
-					c = RT.classForName(sym.name);
+					c = RT.classForNameNonLoading(sym.name);
 				else
 					{
 					Object o = currentNS().getMapping(sym);
@@ -1030,7 +1030,7 @@ static public abstract class HostExpr implements Expr, MaybePrimitiveExpr{
 					else
 						{
 						try{
-						c = RT.classForName(sym.name);
+						c = RT.classForNameNonLoading(sym.name);
 						}
 						catch(Exception e){
 							// aargh
@@ -1041,7 +1041,7 @@ static public abstract class HostExpr implements Expr, MaybePrimitiveExpr{
 				}
 			}
 		else if(stringOk && form instanceof String)
-			c = RT.classForName((String) form);
+			c = RT.classForNameNonLoading((String) form);
 		return c;
 	}
 
@@ -1621,7 +1621,7 @@ static class StaticMethodExpr extends MethodExpr{
 	public final int column;
 	public final java.lang.reflect.Method method;
 	public final Symbol tag;
-	final static Method forNameMethod = Method.getMethod("Class classForName(String)");
+	final static Method forNameMethod = Method.getMethod("Class classForNameNonLoading(String)");
 	final static Method invokeStaticMethodMethod =
 			Method.getMethod("Object invokeStaticMethod(Class,String,Object[])");
 	final static Keyword warnOnBoxedKeyword = Keyword.intern("warn-on-boxed");
@@ -2509,7 +2509,7 @@ public static class NewExpr implements Expr{
 	public final Class c;
 	final static Method invokeConstructorMethod =
 			Method.getMethod("Object invokeConstructor(Class,Object[])");
-	final static Method forNameMethod = Method.getMethod("Class classForName(String)");
+	final static Method forNameMethod = Method.getMethod("Class classForNameNonLoading(String)");
 
 
 	public NewExpr(Class c, IPersistentVector args, int line, int column) {
@@ -4630,7 +4630,7 @@ static public class ObjExpr implements Expr{
 			else
 				{
 				gen.push(destubClassName(cc.getName()));
-				gen.invokeStatic(RT_TYPE, Method.getMethod("Class classForName(String)"));
+				gen.invokeStatic(RT_TYPE, Method.getMethod("Class classForNameNonLoading(String)"));
 				}
 			}
 		else if(value instanceof Symbol)
@@ -7029,7 +7029,7 @@ static public Object resolveIn(Namespace n, Symbol sym, boolean allowPrivate) {
 		}
 	else if(sym.name.indexOf('.') > 0 || sym.name.charAt(0) == '[')
 		{
-		return RT.classForName(sym.name);
+		return RT.classForNameNonLoading(sym.name);
 		}
 	else if(sym.equals(NS))
 			return RT.NS_VAR;
@@ -7071,7 +7071,7 @@ static public Object maybeResolveIn(Namespace n, Symbol sym) {
 	else if(sym.name.indexOf('.') > 0 && !sym.name.endsWith(".") 
 			|| sym.name.charAt(0) == '[')
 		{
-		return RT.classForName(sym.name);
+		return RT.classForNameNonLoading(sym.name);
 		}
 	else if(sym.equals(NS))
 			return RT.NS_VAR;
@@ -7486,7 +7486,7 @@ public static Object compile(Reader rdr, String sourcePath, String sourceName) t
 			clinitgen.invokeStatic(objx.objtype, Method.getMethod("void __init" + n + "()"));
 
 		clinitgen.push(objx.internalName.replace('/','.'));
-		clinitgen.invokeStatic(RT_TYPE, Method.getMethod("Class classForName(String)"));
+		clinitgen.invokeStatic(RT_TYPE, Method.getMethod("Class classForNameNonLoading(String)"));
 		clinitgen.invokeVirtual(CLASS_TYPE,Method.getMethod("ClassLoader getClassLoader()"));
 		clinitgen.invokeStatic(Type.getType(Compiler.class), Method.getMethod("void pushNSandLoader(ClassLoader)"));
 		clinitgen.mark(startTry);

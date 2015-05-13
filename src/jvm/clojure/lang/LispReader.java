@@ -1066,7 +1066,7 @@ static class CtorReader extends AFn{
 		Object[] args = list.subList(1, list.size()).toArray();
 		if(s.equals(cls))
 			{
-			return RT.classForName(args[0].toString());
+			return RT.classForNameNonLoading(args[0].toString());
 			}
 		else if(s.ns != null) //static method
 			{
@@ -1076,7 +1076,7 @@ static class CtorReader extends AFn{
 			}
 		else
 			{
-			return Reflector.invokeConstructor(RT.classForName(s.name), args);
+			return Reflector.invokeConstructor(RT.classForNameNonLoading(s.name), args);
 			}
 	}
 }
@@ -1093,7 +1093,7 @@ public static class EvalReader extends AFn{
 		Object o = read(r, true, null, true, opts, pendingForms);
 		if(o instanceof Symbol)
 			{
-			return RT.classForName(o.toString());
+			return RT.classForNameNonLoading(o.toString());
 			}
 		else if(o instanceof IPersistentList)
 			{
@@ -1106,7 +1106,7 @@ public static class EvalReader extends AFn{
 			if(fs.name.endsWith("."))
 				{
 				Object[] args = RT.toArray(RT.next(o));
-				return Reflector.invokeConstructor(RT.classForName(fs.name.substring(0, fs.name.length() - 1)), args);
+				return Reflector.invokeConstructor(RT.classForNameNonLoading(fs.name.substring(0, fs.name.length() - 1)), args);
 				}
 			if(Compiler.namesStaticMember(fs))
 				{
