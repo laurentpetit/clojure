@@ -5847,6 +5847,16 @@
   {:added "1.0"}
   [] @*loaded-libs*)
 
+(defmacro ^:private trace-execution-time
+  "Use the trace mechanism to trace execution time of `body` for
+   the given `trace-option` (a keyword), with the custom `msg` message"
+  [msg & body]
+  `(let [t0#  (System/currentTimeMillis)
+         res# (do ~@body)
+         t1#  (System/currentTimeMillis)]
+     (.println (System/out) (format "Execution time: %6dms for %s" (- t1# t0#) ~msg))
+     res#))
+
 (defn load
   "Loads Clojure code from resources in classpath. A path is interpreted as
   classpath-relative if it begins with a slash or relative to the root
@@ -5863,7 +5873,8 @@
       (check-cyclic-dependency path)
       (when-not (= path (first *pending-paths*))
         (binding [*pending-paths* (conj *pending-paths* path)]
-          (clojure.lang.RT/load (.substring path 1)))))))
+          (trace-execution-time (format (str "LOADING \"%" (* 4 (inc (count *pending-paths*)))  "s\"") path)
+          (clojure.lang.RT/load (.substring path 1))))))))
 
 (defn compile
   "Compiles the namespace named by the symbol lib into a set of
