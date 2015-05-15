@@ -203,7 +203,7 @@ static Keyword FILE_KEY = Keyword.intern(null, "file");
 static Keyword DECLARED_KEY = Keyword.intern(null, "declared");
 static Keyword DOC_KEY = Keyword.intern(null, "doc");
 final static public Var USE_CONTEXT_CLASSLOADER =
-		Var.intern(CLOJURE_NS, Symbol.intern("*use-context-classloader*"), T).setDynamic();
+		Var.intern(CLOJURE_NS, Symbol.intern("*use-context-classloader*"), F).setDynamic();
 //boolean
 static final public Var UNCHECKED_MATH = Var.intern(Namespace.findOrCreate(Symbol.intern("clojure.core")),
                                                    Symbol.intern("*unchecked-math*"), Boolean.FALSE).setDynamic();
@@ -2119,11 +2119,12 @@ static public ClassLoader makeClassLoader(){
 }
 
 static public ClassLoader baseLoader(){
-	if(Compiler.LOADER.isBound())
-		return (ClassLoader) Compiler.LOADER.deref();
-	else if(booleanCast(USE_CONTEXT_CLASSLOADER.deref()))
+	if(booleanCast(USE_CONTEXT_CLASSLOADER.deref()))
 		return Thread.currentThread().getContextClassLoader();
-	return Compiler.class.getClassLoader();
+	else if(Compiler.LOADER.isBound())
+		return (ClassLoader) Compiler.LOADER.deref();
+	else
+		return Compiler.class.getClassLoader();
 }
 
 static public InputStream resourceAsStream(ClassLoader loader, String name){
