@@ -1,3 +1,4 @@
 - Based off of Clojure 1.7.0-beta2
 - CLJ-1620: avoid constants leak in static initalizer
 - fix(Compiler.java): Sytem properties are not guaranteed to be String
+- fix(RT.java): RT.USE_CONTEXT_CLASSLOADER set to false by default, but checked first in RT.baseLoader()
