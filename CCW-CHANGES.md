@@ -1,4 +1,4 @@
-- Based off of Clojure 1.7.0-RC1
+- Based off of Clojure 1.7.0-RC2
 - CLJ-1620: avoid constants leak in static initalizer: has been declined for Clojure 1.7. May be included in Clojure 1.8. Or worked around via another way.
 - fix(Compiler.java): Sytem properties are not guaranteed to be String. Has been declined for Clojure Core. Keep the fix as long as there may be pre-Luna SR2 users.
 - fix(RT.java): RT.USE_CONTEXT_CLASSLOADER set to false by default, but checked first in RT.baseLoader(). No fix proposed to Clojure Core.
